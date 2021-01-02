@@ -1,6 +1,6 @@
 # Perfecty Push Server ⚡️
 
-[![tests](https://github.com/rwngallego/perfecty-push/workflows/tests/badge.svg)](https://github.com/rwngallego/perfecty-push-wp/actions)
+![Automated tests](https://github.com/rwngallego/perfecty-push/workflows/Automated%20tests/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Self-hosted Push Notifications server written in Go.

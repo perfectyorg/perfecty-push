@@ -12,6 +12,7 @@ func Monitor(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprint(w, `{"running": true}`)
 }
 
+// StartServer Start the server
 func StartServer() (err error) {
 	router := httprouter.New()
 	router.GET("/monitor", Monitor)

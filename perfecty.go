@@ -5,8 +5,6 @@ import (
 	"github.com/rwngallego/perfecty-push/perfecty"
 )
 
-const filePath = "config/perfecty.yml"
-
 func main() {
 	defer func() {
 		if e := recover(); e != nil {
@@ -14,7 +12,7 @@ func main() {
 		}
 	}()
 
-	if err := perfecty.LoadConfig(filePath); err != nil {
+	if err := perfecty.Load(); err != nil {
 		panic(err)
 	}
 

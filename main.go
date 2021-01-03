@@ -12,11 +12,7 @@ func main() {
 		}
 	}()
 
-	if err := perfecty.Load(); err != nil {
-		panic(err)
-	}
-
-	if err := perfecty.StartServer(); err != nil {
+	if err := perfecty.Start(); err != nil {
 		panic(err)
 	}
 }

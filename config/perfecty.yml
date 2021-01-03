@@ -1,6 +1,11 @@
 server:
   host: 127.0.0.1
   port: 8080
+  ssl:
+    enabled: false
+    cert_file:
+    key_file:
 
 logging:
   level: info
+  pretty: true

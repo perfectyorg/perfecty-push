@@ -2,9 +2,9 @@ server:
   host: 127.0.0.1
   port: 8080
   ssl:
-    enabled: false
-    cert_file:
-    key_file:
+    enabled: true
+    cert_file: dist/server.crt
+    key_file: dist/server.key
 
 logging:
   level: info

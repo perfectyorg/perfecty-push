@@ -3,11 +3,10 @@ on:
     branches:
       - master
 
-name: tests
+name: Tests
 
 jobs:
   test:
-    name: Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

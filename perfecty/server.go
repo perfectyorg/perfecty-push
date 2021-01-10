@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
+	"github.com/rs/cors"
 	"github.com/rs/zerolog/log"
 	"github.com/rwngallego/perfecty-push/perfecty/handlers"
 	"net"
@@ -13,17 +14,17 @@ import (
 )
 
 func startServer() (err error) {
-	router := httprouter.New()
+	mux := httprouter.New()
 
-	//routes
-	router.GET("/monitor", handlers.Monitor)
+	//handlers
+	mux.GET("/monitor", handlers.Monitor)
 
 	address := fmt.Sprintf("%s:%d", config.Server.Host, config.Server.Port)
 	log.Info().Msg("Listening on " + address)
 
 	server := http.Server{
 		Addr:    address,
-		Handler: &Logger{router},
+		Handler: logger(cors.Default().Handler(mux)),
 	}
 
 	if config.Server.Ssl.Enabled == true {
@@ -42,54 +43,52 @@ const (
 )
 
 type (
-	Logger struct {
-		handler http.Handler
-	}
-
 	LoggerResponseWriter struct {
 		http.ResponseWriter
 		StatusCode int
 	}
 )
 
-func NewLoggerRW(w http.ResponseWriter) (loggerRw *LoggerResponseWriter) {
-	loggerRw = &LoggerResponseWriter{w, http.StatusOK}
+func NewLoggerResponseWriter(w http.ResponseWriter) (lrw *LoggerResponseWriter) {
+	lrw = &LoggerResponseWriter{w, http.StatusOK}
 	return
 }
 
-func (loggerRw *LoggerResponseWriter) WriteHeader(code int) {
-	loggerRw.StatusCode = code
-	loggerRw.ResponseWriter.WriteHeader(code)
+func (lrw *LoggerResponseWriter) WriteHeader(code int) {
+	lrw.StatusCode = code
+	lrw.ResponseWriter.WriteHeader(code)
 }
 
-func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var (
-		start = time.Now()
-		ua    = r.Header.Get("User-Agent")
-		trace uuid.UUID
-		ip    string
-		err   error
-	)
+func logger(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var (
+			start = time.Now()
+			ua    = r.Header.Get("User-Agent")
+			trace uuid.UUID
+			ip    string
+			err   error
+		)
 
-	if trace, err = uuid.NewRandom(); err != nil {
-		log.Error().Err(err).Msg("Could not generate the trace")
-	}
+		if trace, err = uuid.NewRandom(); err != nil {
+			log.Error().Err(err).Msg("Could not generate the trace")
+		}
 
-	if ip, _, err = net.SplitHostPort(r.RemoteAddr); err != nil {
-		log.Error().Err(err).Str("Remote-Addr", r.RemoteAddr).Msg("Could not get the host part")
-	}
+		if ip, _, err = net.SplitHostPort(r.RemoteAddr); err != nil {
+			log.Error().Err(err).Str("Remote-Addr", r.RemoteAddr).Msg("Could not get the host part")
+		}
 
-	loggerRw := NewLoggerRW(w)
-	ctx := context.WithValue(r.Context(), TraceKey, trace)
-	l.handler.ServeHTTP(loggerRw, r.WithContext(ctx))
+		lrw := NewLoggerResponseWriter(w)
+		ctx := context.WithValue(r.Context(), TraceKey, trace)
+		h.ServeHTTP(lrw, r.WithContext(ctx))
 
-	log.Info().
-		Str("Trace", trace.String()).
-		Str("Method", r.Method).
-		Stringer("Url", r.URL).
-		Dur("Duration", time.Since(start)).
-		Str("Ip", ip).
-		Str("User-Agent", ua).
-		Int("Code", loggerRw.StatusCode).
-		Msg("")
+		log.Info().
+			Str("Trace", trace.String()).
+			Str("Method", r.Method).
+			Stringer("Url", r.URL).
+			Dur("Duration", time.Since(start)).
+			Str("Ip", ip).
+			Str("User-Agent", ua).
+			Int("Code", lrw.StatusCode).
+			Msg("")
+	})
 }

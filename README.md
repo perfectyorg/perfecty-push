@@ -1,19 +1,36 @@
 # Perfecty Push Server ⚡️
 
-![Automated tests](https://github.com/rwngallego/perfecty-push/workflows/Automated%20tests/badge.svg)
+![Tests](https://github.com/rwngallego/perfecty-push/workflows/Tests/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Self-hosted Push Notifications server written in Go.
 
 ![Perfecty Push for Wordpress](.github/assets/logo-white.png)
 
-**Perfecty Push Server** [integrates with Wordpress](https://wordpress.org/plugins/perfecty-push-notifications/). Send thousands of notifications
-from your server without third-party dependencies.
+Send thousands of notifications from your server:
+No hidden fees, no third party dependencies and you own your data. 👏
+
+**Perfecty Push Server** also integrates with:
+ - [Wordpress](https://wordpress.org/plugins/perfecty-push-notifications/)
 
 ## Local Setup 👨🏻‍💻
 
+Generate a sample TLS certificate:
 
-Install Go and run:
+```sh
+mkdir dist/
+openssl req -newkey rsa:2048 -nodes -keyout dist/server.key -x509 -days 365 -out dist/server.crt
+
+# Update the config:
+vi config/perfecty.yml
+  ...
+  ssl:
+    enabled: true
+    cert_file: dist/server.crt
+    key_file: dist/server.key
+```
+
+Execute the project:
 
 ```sh
 go run perfecty.go

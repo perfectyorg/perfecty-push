@@ -16,7 +16,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
       - name: Build project
         env:
-          ZIP_NAME: perfecty-push-v${{ env.RELEASE_VERSION }}.zip
+          ZIP_NAME: internal-push-v${{ env.RELEASE_VERSION }}.zip
         run: |
            make bundle
       - name: Create Release
@@ -36,6 +36,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/perfecty-push-v${{ env.RELEASE_VERSION }}.zip
-          asset_name: perfecty-push-v${{ env.RELEASE_VERSION }}.zip
+          asset_path: ./examples/internal-push-v${{ env.RELEASE_VERSION }}.zip
+          asset_name: internal-push-v${{ env.RELEASE_VERSION }}.zip
           asset_content_type: application/zip

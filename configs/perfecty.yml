@@ -3,8 +3,8 @@ server:
   port: 8080
   ssl:
     enabled: true
-    cert_file: dist/server.crt
-    key_file: dist/server.key
+    cert_file: examples/certs/server.crt
+    key_file: examples/certs/server.key
 
 logging:
   level: info

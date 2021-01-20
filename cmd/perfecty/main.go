@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/rwngallego/perfecty-push/perfecty"
+	"github.com/rwngallego/perfecty-push"
 )
 
 func main() {

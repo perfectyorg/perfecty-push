@@ -18,22 +18,22 @@ No hidden fees, no third party dependencies and you own your data. 👏
 Generate a sample TLS certificate:
 
 ```sh
-mkdir dist/
-openssl req -newkey rsa:2048 -nodes -keyout dist/server.key -x509 -days 365 -out dist/server.crt
+mkdir examples/
+openssl req -newkey rsa:2048 -nodes -keyout examples/certs/server.key -x509 -days 365 -out examples/certs/server.crt
 
-# Update the config:
-vi config/perfecty.yml
+# Update the configs:
+vi configs/internal.yml
   ...
   ssl:
     enabled: true
-    cert_file: dist/server.crt
-    key_file: dist/server.key
+    cert_file: examples/server.crt
+    key_file: examples/server.key
 ```
 
 Execute the project:
 
 ```sh
-go run perfecty.go
+go run internal.go
 ```
 
 ## Configuration 🛠

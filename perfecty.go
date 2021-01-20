@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"github.com/rwngallego/perfecty-push/internal/server"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
 
-const filePath = "config/perfecty.yml"
+const filePath = "configs/internal.yml"
 
 // Start Setup and start the push server
 func Start() (err error) {
@@ -21,14 +22,14 @@ func Start() (err error) {
 		return
 	}
 
-	if err = startServer(); err != nil {
+	if err = server.StartServer(); err != nil {
 		return
 	}
 
 	return
 }
 
-// Config
+// PerfectyConfig
 
 type (
 	Ssl struct {
@@ -45,25 +46,25 @@ type (
 		Level  string `yaml:"level"`
 		Pretty bool   `yaml:"pretty"`
 	}
-	Config struct {
+	PerfectyConfig struct {
 		Server  Server
 		Logging Logging
 	}
 )
 
 var (
-	config Config
+	Config PerfectyConfig
 )
 
 func loadConfig(filePath string) (err error) {
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		err = fmt.Errorf("cannot find the config file at %s: %w", filePath, err)
+		err = fmt.Errorf("cannot find the configs file at %s: %w", filePath, err)
 		return
 	}
 
-	if err = yaml.Unmarshal(content, &config); err != nil {
-		err = fmt.Errorf("cannot parse the config file: %w", err)
+	if err = yaml.Unmarshal(content, &Config); err != nil {
+		err = fmt.Errorf("cannot parse the configs file: %w", err)
 		return
 	}
 
@@ -81,8 +82,8 @@ func loadLogging() (err error) {
 
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if config.Logging.Level != "" {
-		if level, err = zerolog.ParseLevel(config.Logging.Level); err != nil {
+	if Config.Logging.Level != "" {
+		if level, err = zerolog.ParseLevel(Config.Logging.Level); err != nil {
 			return
 		}
 		zerolog.SetGlobalLevel(level)
@@ -92,7 +93,7 @@ func loadLogging() (err error) {
 		Timestamp().
 		Str("host", host).
 		Logger()
-	if config.Logging.Pretty == true {
+	if Config.Logging.Pretty == true {
 		logger = logger.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 	log.Logger = logger

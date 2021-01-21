@@ -1,27 +1,20 @@
-package handlers_test
+package handlers
 
 import (
 	"github.com/julienschmidt/httprouter"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/rwngallego/perfecty-push/internal/handlers"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
-var _ = Describe("Monitor", func() {
-	Describe("Calling the monitor", func() {
+func TestServerMonitorReturnsOK(t *testing.T) {
+	req := httptest.NewRequest("GET", "/monitor", nil)
+	rr := httptest.NewRecorder()
 
-		It("Should return OK", func() {
-			req := httptest.NewRequest("GET", "/monitor", nil)
-			rr := httptest.NewRecorder()
+	router := httprouter.New()
+	router.GET("/monitor", Monitor)
+	router.ServeHTTP(rr, req)
 
-			router := httprouter.New()
-			router.GET("/monitor", handlers.Monitor)
-			router.ServeHTTP(rr, req)
-
-			Expect(rr.Code).To(Equal(http.StatusOK))
-		})
-	})
-
-})
+	assert.Equal(t, http.StatusOK, rr.Code)
+}

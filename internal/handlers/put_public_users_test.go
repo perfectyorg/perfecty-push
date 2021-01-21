@@ -1,31 +1,26 @@
-package handlers_test
+package handlers
 
 import (
 	"encoding/json"
 	"github.com/julienschmidt/httprouter"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/rwngallego/perfecty-push/internal/handlers"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
-var _ = Describe("PutPublicUsers", func() {
-	Describe("Registering a user", func() {
-		It("Should return OK", func() {
-			req := httptest.NewRequest("PUT", "/v1/public/users", nil)
-			rr := httptest.NewRecorder()
-			router := httprouter.New()
-			router.PUT("/v1/public/users", handlers.PutPublicUsers)
-			router.ServeHTTP(rr, req)
+func TestUserCanRegister(t *testing.T) {
+	req := httptest.NewRequest("PUT", "/v1/public/users", nil)
+	rr := httptest.NewRecorder()
+	router := httprouter.New()
+	router.PUT("/v1/public/users", PutPublicUsers)
+	router.ServeHTTP(rr, req)
 
-			body := handlers.PutPublicUsersResponse{}
-			err := json.NewDecoder(rr.Body).Decode(&body)
+	body := PutPublicUsersResponse{}
+	err := json.NewDecoder(rr.Body).Decode(&body)
 
-			Expect(err).ShouldNot(HaveOccurred())
-			Expect(rr.Code).To(Equal(http.StatusOK))
-			Expect(body.Success).To(Equal(nil))
-			Expect(body.UUID).NotTo(Equal(nil))
-		})
-	})
-})
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, true, body.Success)
+	assert.NotEqual(t, nil, body.UUID)
+}

@@ -1,4 +1,4 @@
-package server
+package internal
 
 import (
 	"context"
@@ -7,7 +7,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
 	"github.com/rs/zerolog/log"
-	"github.com/rwngallego/perfecty-push"
 	"github.com/rwngallego/perfecty-push/internal/handlers"
 	"net"
 	"net/http"
@@ -21,7 +20,7 @@ func StartServer() (err error) {
 	mux.GET("/monitor", handlers.Monitor)
 	mux.GET("/v1/public/users", handlers.PutPublicUsers)
 
-	address := fmt.Sprintf("%s:%d", perfecty.Config.Server.Host, perfecty.Config.Server.Port)
+	address := fmt.Sprintf("%s:%d", Config.Server.Host, Config.Server.Port)
 	log.Info().Msg("Listening on " + address)
 
 	server := http.Server{
@@ -29,8 +28,8 @@ func StartServer() (err error) {
 		Handler: logger(cors.Default().Handler(mux)),
 	}
 
-	if perfecty.Config.Server.Ssl.Enabled == true {
-		err = server.ListenAndServeTLS(perfecty.Config.Server.Ssl.CertFile, perfecty.Config.Server.Ssl.KeyFile)
+	if Config.Server.Ssl.Enabled == true {
+		err = server.ListenAndServeTLS(Config.Server.Ssl.CertFile, Config.Server.Ssl.KeyFile)
 	} else {
 		err = server.ListenAndServe()
 	}

@@ -23,9 +23,14 @@ type (
 		Level  string `yaml:"level"`
 		Pretty bool   `yaml:"pretty"`
 	}
+	Database struct {
+		Driver string `yaml:"driver"`
+		DSN    string `yaml:"dsn"`
+	}
 	PerfectyConfig struct {
-		Server  Server
-		Logging Logging
+		Server   Server
+		Logging  Logging
+		Database Database
 	}
 )
 

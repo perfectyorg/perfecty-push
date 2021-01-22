@@ -9,3 +9,7 @@ server:
 logging:
   level: info
   pretty: true
+
+database:
+  driver: sqlite3
+  dsn: file:test.db?cache=shared&mode=memory

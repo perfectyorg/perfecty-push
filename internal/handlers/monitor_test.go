@@ -13,7 +13,7 @@ func TestServerMonitorReturnsOK(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	router := httprouter.New()
-	router.GET("/monitor", Monitor)
+	NewMonitorHandler(router)
 	router.ServeHTTP(rr, req)
 
 	assert.Equal(t, http.StatusOK, rr.Code)

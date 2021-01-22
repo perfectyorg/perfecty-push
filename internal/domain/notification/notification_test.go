@@ -27,6 +27,14 @@ func TestChangeStatus(t *testing.T) {
 	assert.Equal(t, n.StatusFailed, notification.Status())
 }
 
+func TestNotificationTakeRelease(t *testing.T) {
+	notification := createNotification()
+	notification.Take()
+	assert.Equal(t, true, notification.IsTaken())
+	notification.Release()
+	assert.Equal(t, false, notification.IsTaken())
+}
+
 func createNotification() (notification *n.Notification) {
 	notification, _ = n.NewNotification(
 		`{"name": "test"}`,

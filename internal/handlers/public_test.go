@@ -13,7 +13,8 @@ func TestUserCanRegister(t *testing.T) {
 	req := httptest.NewRequest("PUT", "/v1/public/users", nil)
 	rr := httptest.NewRecorder()
 	router := httprouter.New()
-	router.PUT("/v1/public/users", PutPublicUsers)
+
+	NewPublicHandlers(router, nil, nil)
 	router.ServeHTTP(rr, req)
 
 	body := PutPublicUsersResponse{}

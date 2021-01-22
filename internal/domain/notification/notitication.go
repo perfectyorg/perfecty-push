@@ -21,7 +21,7 @@ type (
 		LastCursor int64
 		BatchSize  int64
 		status     int
-		IsTaken    bool
+		isTaken    bool
 		createdAt  time.Time
 		FinishedAt *time.Time
 	}
@@ -41,7 +41,7 @@ func NewNotification(payload string, total int64, batchSize int64, status int) (
 		LastCursor: 0,
 		BatchSize:  batchSize,
 		status:     status,
-		IsTaken:    false,
+		isTaken:    false,
 		createdAt:  time.Now(),
 	}
 	return
@@ -57,8 +57,20 @@ func (n *Notification) Status() int {
 	return n.status
 }
 
+func (n *Notification) IsTaken() bool {
+	return n.isTaken
+}
+
 // Setters
 
 func (n *Notification) SetStatus(status int) {
 	n.status = status
+}
+
+func (n *Notification) Take() {
+	n.isTaken = true
+}
+
+func (n *Notification) Release() {
+	n.isTaken = false
 }

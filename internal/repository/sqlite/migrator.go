@@ -13,10 +13,6 @@ func Migrate(db *sql.DB) (err error) {
 		return
 	}
 
-	err = goose.Up(db, ".")
-	if err != nil {
-		return
-	}
-
-	return
+	// it will run the migrations registered at _ (/internal/repository/sqlite/migrations)
+	return goose.Up(db, ".")
 }

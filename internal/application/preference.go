@@ -4,18 +4,18 @@ import "github.com/rwngallego/perfecty-push/internal/domain/user"
 
 type (
 	PreferenceService struct {
-		repository UserRepository
+		userRepository UserRepository
 	}
 )
 
 //NewPreferenceService Creates a Preference service
 func NewPreferenceService(userRepository UserRepository) (service *PreferenceService) {
 	service = &PreferenceService{
-		repository: userRepository,
+		userRepository: userRepository,
 	}
 	return
 }
 
 func (p *PreferenceService) Update(u *user.User) (err error) {
-	return p.repository.Update(u)
+	return p.userRepository.Update(u)
 }

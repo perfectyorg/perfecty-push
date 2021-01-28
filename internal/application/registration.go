@@ -20,18 +20,18 @@ type (
 	}
 
 	RegistrationService struct {
-		repository UserRepository
+		userRepository UserRepository
 	}
 )
 
-// NewRegistrationService Creates a registration service with the provided repository implementation
+// NewRegistrationService Creates a registration service with the provided userRepository implementation
 func NewRegistrationService(userRepository UserRepository) (registrationService *RegistrationService) {
-	registrationService = &RegistrationService{repository: userRepository}
+	registrationService = &RegistrationService{userRepository: userRepository}
 	return
 }
 
 func (r *RegistrationService) RegisterUser(endpoint string, remoteIp string, keyAuth string, keyP256DH string) (user *u.User, err error) {
-	user, err = r.repository.GetByEndpoint(endpoint)
+	user, err = r.userRepository.GetByEndpoint(endpoint)
 	if user != nil && err == nil {
 		err = r.registerExistingUser(user, remoteIp, keyAuth, keyP256DH)
 		return
@@ -46,7 +46,7 @@ func (r *RegistrationService) registerExistingUser(user *u.User, remoteIp string
 	user.KeyAuth = keyAuth
 	user.KeyP256DH = keyP256DH
 	user.Enable()
-	return r.repository.Update(user)
+	return r.userRepository.Update(user)
 }
 
 func (r *RegistrationService) registerNewUser(endpoint string, remoteIp string, keyAuth string, keyP256DH string) (user *u.User, err error) {
@@ -55,6 +55,6 @@ func (r *RegistrationService) registerNewUser(endpoint string, remoteIp string, 
 		return
 	}
 
-	err = r.repository.Create(user)
+	err = r.userRepository.Create(user)
 	return
 }

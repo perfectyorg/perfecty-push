@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/zerolog/log"
 	"github.com/rwngallego/perfecty-push/internal/application"
 	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
 )
@@ -23,6 +24,7 @@ func StartDB() (userRepository application.UserRepository, err error) {
 	switch driver {
 	case "sqlite3":
 		if err = sqlite.Migrate(db); err != nil {
+			log.Error().Err(err).Msg("Could not run the migrations")
 			return
 		}
 		userRepository = sqlite.NewSqlLiteUserRepository(db)
@@ -34,6 +36,7 @@ func StartDB() (userRepository application.UserRepository, err error) {
 }
 
 func StopDB() (err error) {
+	log.Info().Msg("Closing the DB")
 	if db != nil {
 		return db.Close()
 	}

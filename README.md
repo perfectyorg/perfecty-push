@@ -22,7 +22,7 @@ mkdir examples/
 openssl req -newkey rsa:2048 -nodes -keyout examples/certs/server.key -x509 -days 365 -out examples/certs/server.crt
 
 # Update the configs:
-vi configs/internal.yml
+vi configs/perfecty.yml
   ...
   ssl:
     enabled: true
@@ -33,7 +33,14 @@ vi configs/internal.yml
 Execute the project:
 
 ```sh
-go run internal.go
+go run cmd/perfecty/main.go
+```
+
+Generate executable:
+
+```shell
+go build ./cmd/perfecty/
+./perfecty
 ```
 
 ## Configuration 🛠

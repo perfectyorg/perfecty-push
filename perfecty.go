@@ -5,7 +5,7 @@ import (
 	"github.com/rwngallego/perfecty-push/internal/application"
 )
 
-const filePath = "configs/internal.yml"
+const filePath = "configs/perfecty.yml"
 
 // Start Setup and start the push server
 func Start() (err error) {

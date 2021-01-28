@@ -3,6 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"github.com/pressly/goose"
+	_ "github.com/rwngallego/perfecty-push/internal/repository/sqlite/migrations"
 )
 
 const dialect = "sqlite3"

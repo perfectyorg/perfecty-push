@@ -11,8 +11,9 @@ func init() {
 
 func Up00001(tx *sql.Tx) (err error) {
 	_, err = tx.Exec("CREATE TABLE users (" +
-		"uuid char(36) NOT NULL PRIMARY KEY" +
+		"uuid text NOT NULL PRIMARY KEY" +
 		");")
+	_, err = tx.Exec("INSERT INTO users VALUES('my name');")
 	return
 }
 

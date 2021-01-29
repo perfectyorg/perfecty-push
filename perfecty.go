@@ -7,7 +7,7 @@ import (
 
 const filePath = "configs/perfecty.yml"
 
-// Start Setup and start the push server
+// Start Start the push server
 func Start() (err error) {
 	if err = internal.LoadConfig(filePath); err != nil {
 		return

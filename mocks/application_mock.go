@@ -63,10 +63,10 @@ func (mr *MockUserRepositoryMockRecorder) Delete(arg0 interface{}) *gomock.Call 
 }
 
 // Get mocks base method
-func (m *MockUserRepository) Get(arg0, arg1 int, arg2, arg3 string, arg4 bool) ([]user.User, error) {
+func (m *MockUserRepository) Get(arg0, arg1 int, arg2, arg3 string, arg4 bool) ([]*user.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2, arg3, arg4)
-	ret0, _ := ret[0].([]user.User)
+	ret0, _ := ret[0].([]*user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

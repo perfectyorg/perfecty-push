@@ -16,10 +16,13 @@ func TestGetUsers(t *testing.T) {
 	var (
 		db       = setupDB()
 		userRepo = sqlite.NewSqlLiteUserRepository(db)
-		_, _     = u.NewUser("endpoint_test_1", "127.0.0.1", "my_key_auth_1", "my_p256_dh_key_1")
-		_, _     = u.NewUser("endpoint_test_2", "127.0.0.2", "my_key_auth_2", "my_p256_dh_key_2")
+		user1, _ = u.NewUser("endpoint_test_1", "127.0.0.1", "my_key_auth_1", "my_p256_dh_key_1")
+		user2, _ = u.NewUser("endpoint_test_2", "127.0.0.2", "my_key_auth_2", "my_p256_dh_key_2")
 	)
 	defer db.Close()
+
+	userRepo.Create(user1)
+	userRepo.Create(user2)
 
 	users, err := userRepo.Get(0, 3, "endpoint", "asc", false)
 
@@ -36,9 +39,10 @@ func TestCreateUser(t *testing.T) {
 	defer db.Close()
 
 	err := userRepo.Create(user)
-	created, _ := userRepo.GetById(user.Uuid)
+	created, errGetById := userRepo.GetById(user.Uuid)
 
 	assert.NoError(t, err)
+	assert.NoError(t, errGetById)
 	assert.NotNil(t, created)
 }
 
@@ -61,12 +65,15 @@ func TestGetUser(t *testing.T) {
 	assert.Equal(t, false, created.CreatedAt().IsZero())
 	assert.Equal(t, true, created.IsOptedIn())
 	assert.Equal(t, true, created.IsEnabled())
-	assert.Equal(t, nil, created.DisabledAt())
+	assert.Nil(t, created.DisabledAt())
 }
 
 func setupDB() (db *sql.DB) {
 	db, err := sql.Open(driver, dsn)
 	if err != nil {
+		panic(err)
+	}
+	if err = sqlite.Migrate(db); err != nil {
 		panic(err)
 	}
 	return

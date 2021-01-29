@@ -9,13 +9,21 @@ import (
 
 type (
 	UserRepository interface {
-		Get(offset int, size int, orderBy string, orderAsc string, onlyActive bool) (userList []u.User, err error)
+		// Get Get the users
+		Get(offset int, size int, orderBy string, orderAsc string, onlyActive bool) (userList []*u.User, err error)
+		// GetById Get the user by Id
 		GetById(id uuid.UUID) (user *u.User, err error)
+		// GetByEndpoint Get the user by endpoint
 		GetByEndpoint(endpoint string) (user *u.User, err error)
+		// Create Create the user
 		Create(user *u.User) (err error)
+		// Update Update the user
 		Update(user *u.User) (err error)
+		// Delete Delete the user by uuid
 		Delete(id uuid.UUID) (err error)
+		// GetTotal Get the total number of users
 		GetTotal() (total int, err error)
+		// Stats Get the stats
 		Stats() (total int, active int, inactive int)
 	}
 

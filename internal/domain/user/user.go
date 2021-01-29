@@ -37,6 +37,22 @@ func NewUser(endpoint string, remoteIP string, keyAuth string, keyP256DH string)
 	return
 }
 
+// NewUserRaw Create a new user with all the specified fields
+func NewUserRaw(uuid uuid.UUID, endpoint string, remoteIP string, keyAuth string, keyP256DH string, optedIn bool, enabled bool, createdAt time.Time, disabledAt *time.Time) (user *User, err error) {
+	user = &User{
+		Uuid:       uuid,
+		Endpoint:   endpoint,
+		RemoteIP:   remoteIP,
+		KeyAuth:    keyAuth,
+		KeyP256DH:  keyP256DH,
+		optedIn:    optedIn,
+		enabled:    enabled,
+		createdAt:  createdAt,
+		disabledAt: disabledAt,
+	}
+	return
+}
+
 // Access
 
 func (u *User) CreatedAt() time.Time {

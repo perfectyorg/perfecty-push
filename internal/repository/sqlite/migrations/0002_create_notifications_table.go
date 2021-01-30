@@ -20,7 +20,7 @@ func Up00002(tx *sql.Tx) (err error) {
 			status varchar(15) DEFAULT 'scheduled' NOT NULL,
 			is_taken tinyint DEFAULT 0 NOT NULL,
 			created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-			finished_at datetime NULL
+			status_changed_at datetime NULL
 		);`)
 
 	return

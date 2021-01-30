@@ -15,8 +15,8 @@ func TestNewNotification(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, `{"name": "test"}`, notification.Payload)
-	assert.Equal(t, int64(30), notification.Total)
-	assert.Equal(t, int64(200), notification.BatchSize)
+	assert.Equal(t, 30, notification.Total)
+	assert.Equal(t, 200, notification.BatchSize)
 	assert.Equal(t, n.StatusCompleted, notification.Status())
 	assert.Equal(t, false, notification.CreatedAt().IsZero())
 }

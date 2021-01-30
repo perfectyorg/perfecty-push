@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	fields = "uuid,endpoint,remote_ip,key_auth,key_p256dh,opted_in,enabled,created_at,disabled_at"
+	userFields = "uuid,endpoint,remote_ip,key_auth,key_p256dh,opted_in,enabled,created_at,disabled_at"
 )
 
 func NewSqlLiteUserRepository(db *sql.DB) (r *SqlLiteUserRepository) {
@@ -20,18 +20,13 @@ func NewSqlLiteUserRepository(db *sql.DB) (r *SqlLiteUserRepository) {
 }
 
 type (
-	// We need it to have a general accessor to *sql.Row and *sql.Rows
-	rowInterface interface {
-		Scan(dest ...interface{}) error
-	}
-
 	SqlLiteUserRepository struct {
 		db *sql.DB
 	}
 )
 
 func (r *SqlLiteUserRepository) Get(offset int, size int, orderBy string, orderAsc string, onlyActive bool) (userList []*u.User, err error) {
-	stmt, err := r.db.Prepare("SELECT " + fields + " FROM users ORDER BY " + orderBy + " " + orderAsc + " LIMIT ? OFFSET ?")
+	stmt, err := r.db.Prepare("SELECT " + userFields + " FROM users ORDER BY " + orderBy + " " + orderAsc + " LIMIT ? OFFSET ?")
 	if err != nil {
 		log.Error().Err(err).Msg("Could not prepare the query")
 		return
@@ -57,7 +52,7 @@ func (r *SqlLiteUserRepository) Get(offset int, size int, orderBy string, orderA
 }
 
 func (r *SqlLiteUserRepository) GetById(id uuid.UUID) (user *u.User, err error) {
-	stmt, err := r.db.Prepare("SELECT " + fields + " FROM users WHERE uuid = ?")
+	stmt, err := r.db.Prepare("SELECT " + userFields + " FROM users WHERE uuid = ?")
 	if err != nil {
 		log.Error().Err(err).Msg("Could not prepare the query")
 		return
@@ -69,7 +64,7 @@ func (r *SqlLiteUserRepository) GetById(id uuid.UUID) (user *u.User, err error) 
 }
 
 func (r *SqlLiteUserRepository) GetByEndpoint(endpoint string) (user *u.User, err error) {
-	stmt, err := r.db.Prepare("SELECT " + fields + " FROM users WHERE endpoint = ?")
+	stmt, err := r.db.Prepare("SELECT " + userFields + " FROM users WHERE endpoint = ?")
 	if err != nil {
 		log.Error().Err(err).Msg("Could not prepare the query")
 		return
@@ -174,14 +169,14 @@ func getUserFromRow(row rowInterface) (user *u.User, err error) {
 
 	err = row.Scan(&uuidString, &endpoint, &remoteIP, &keyAuth, &keyP256DH, &optedIn, &enabled, &createdAt, &disabledAt)
 	if err != nil {
-		log.Error().Err(err).Msg("Could not parse the user")
+		log.Error().Err(err).Msg("Could not scan the user")
 		return
 	}
 
-	uuid, err := uuid.Parse(uuidString)
+	id, err := uuid.Parse(uuidString)
 	if err != nil {
 		log.Error().Err(err).Msg("Could not parse the uuid")
 	}
 
-	return u.NewUserRaw(uuid, endpoint, remoteIP, keyAuth, keyP256DH, optedIn, enabled, createdAt, disabledAt)
+	return u.NewUserRaw(id, endpoint, remoteIP, keyAuth, keyP256DH, optedIn, enabled, createdAt, disabledAt)
 }

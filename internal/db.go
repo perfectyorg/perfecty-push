@@ -12,7 +12,7 @@ import (
 var db *sql.DB
 
 //StartDB Starts the DB and returns the repository implementations according to the driver
-func StartDB() (userRepository application.UserRepository, err error) {
+func StartDB() (userRepository application.UserRepository, notificationRepository application.NotificationRepository, err error) {
 	driver := Config.Database.Driver
 	dsn := Config.Database.DSN
 
@@ -28,6 +28,7 @@ func StartDB() (userRepository application.UserRepository, err error) {
 			return
 		}
 		userRepository = sqlite.NewSqlLiteUserRepository(db)
+		notificationRepository = sqlite.NewSqlLiteNotificationRepository(db)
 		return
 	default:
 		err = fmt.Errorf("driver \"%s\" is not supported", driver)

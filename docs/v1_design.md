@@ -7,12 +7,12 @@ below, and they're a good starting point to understand the goal and nature of th
 This includes the planned product, architecture considerations, principles, potential
 libraries and a rough idea about the API.
 
-## End product
+## Outcome
 
 The final version of Perfecty Push will extend the current capabilities
 offered by the [plugin version](https://github.com/rwngallego/perfecty-push-wp/).
 The development will be iterative
-and in total, it should:
+and in general, it should:
 
 - Support both Push API and Websockets notifications.
 - Have a Push Engine independent of the notification mechanism.

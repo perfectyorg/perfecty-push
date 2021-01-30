@@ -21,16 +21,17 @@ type (
 	}
 )
 
+// NewPublicHandlers Register the public handlers
 func NewPublicHandlers(mux *httprouter.Router, rs *application.RegistrationService, ps *application.PreferenceService) {
 	h := PublicHandler{
 		registrationService: rs,
 		preferenceService:   ps,
 	}
 
-	mux.PUT("/v1/public/users", h.PutUsers)
+	mux.PUT("/v1/public/users", h.putUsers)
 }
 
-func (h *PublicHandler) PutUsers(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (h *PublicHandler) putUsers(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	var (
 		id  uuid.UUID
 		err error

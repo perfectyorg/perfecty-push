@@ -17,7 +17,7 @@ func Start() (err error) {
 		return
 	}
 
-	userRepository, err := internal.StartDB()
+	userRepository, notificationRepository, err := internal.StartDB()
 	if err != nil {
 		return
 	}
@@ -25,8 +25,9 @@ func Start() (err error) {
 
 	registrationService := application.NewRegistrationService(userRepository)
 	preferenceService := application.NewPreferenceService(userRepository)
+	scheduleService := application.NewScheduleService(notificationRepository)
 
-	if err = internal.StartServer(registrationService, preferenceService); err != nil {
+	if err = internal.StartServer(registrationService, preferenceService, scheduleService); err != nil {
 		return
 	}
 

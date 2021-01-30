@@ -10,12 +10,13 @@ import (
 	"net/http"
 )
 
-func StartServer(rs *application.RegistrationService, ps *application.PreferenceService) (err error) {
+func StartServer(rs *application.RegistrationService, ps *application.PreferenceService, ss *application.ScheduleService) (err error) {
 	mux := httprouter.New()
 
 	//handlers
 	handlers.NewMonitorHandler(mux)
 	handlers.NewPublicHandlers(mux, rs, ps)
+	handlers.NewInternalHandlers(mux, ss)
 
 	address := fmt.Sprintf("%s:%d", Config.Server.Host, Config.Server.Port)
 	log.Info().Msg("Listening on " + address)

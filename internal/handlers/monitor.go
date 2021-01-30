@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// NewMonitorHandler Register the monitor handler
 func NewMonitorHandler(mux *httprouter.Router) {
 	mux.GET("/monitor", Monitor)
 }

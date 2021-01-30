@@ -152,7 +152,7 @@ func (r *SqlLiteUserRepository) Stats() (total int, active int, inactive int, er
 	return
 }
 
-// Private
+// Internal
 
 func getUserFromRow(row rowInterface) (user *u.User, err error) {
 	var (

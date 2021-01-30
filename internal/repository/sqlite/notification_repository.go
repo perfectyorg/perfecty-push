@@ -127,7 +127,7 @@ func (r *SqlLiteNotificationRepository) Stats() (total int, succeeded int, faile
 	return
 }
 
-// Private
+// Internal
 
 func getNotificationFromRow(row rowInterface) (notification *n.Notification, err error) {
 	var (

@@ -1,6 +1,7 @@
 # Perfecty Push Server ⚡️
 
 ![Tests](https://github.com/rwngallego/perfecty-push/workflows/Tests/badge.svg)
+![Deployment](https://github.com/rwngallego/perfecty-push/workflows/Deployment/badge.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Self-hosted Push Notifications server written in Go.
@@ -10,8 +11,14 @@ Self-hosted Push Notifications server written in Go.
 Send thousands of notifications from your server:
 No hidden fees, no third party dependencies and you own your data. 👏
 
-**Perfecty Push Server** also integrates with:
- - [Wordpress](https://wordpress.org/plugins/perfecty-push-notifications/)
+Documentation:
+- [V1 Design](./docs/v1_design.md)
+
+Project links:
+- Go Server: [https://github.com/rwngallego/perfecty-push](https://github.com/rwngallego/perfecty-push)
+- Javascript SDK: [https://github.com/rwngallego/perfecty-push-js-sdk](https://github.com/rwngallego/perfecty-push-js-sdk)
+- WordPress integration: [https://github.com/rwngallego/perfecty-push-wp/](https://github.com/rwngallego/perfecty-push-wp/)
+ - perfecty.org: [https://github.com/rwngallego/perfecty-push-website](https://github.com/rwngallego/perfecty-push-website)
 
 ## Local Setup 👨🏻‍💻
 

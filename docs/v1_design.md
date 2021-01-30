@@ -7,6 +7,15 @@ below, and they're a good starting point to understand the goal and nature of th
 This includes the planned product, architecture considerations, principles, potential
 libraries and a rough idea about the API.
 
+Internal quality in Software Development is cheaper in the long run [[1]](https://martinfowler.com/articles/is-quality-worth-cost.html).
+This means that a high effort will be put in having a good foundation for the project, so that
+it's possible to iterate faster, cheaper and safer. Apart from the CISQ quality model, the project should embrace:
+
+- Unit Testing
+- Continuous Integration/Deployment
+- Metrics
+- Refactoring
+
 ## Outcome
 
 The final version of Perfecty Push will extend the current capabilities
@@ -33,15 +42,6 @@ plugin version, with basic user segmentation support, completely distributable i
 - Unified JS SDK
 
 ## Architecture
-
-Internal quality in Software Development is cheaper in the long run [[1]](https://martinfowler.com/articles/is-quality-worth-cost.html).
-This means that a high effort will be put in having a good foundation for the project, so that
-it's possible to iterate faster, cheaper and safer. Apart from the CISQ quality model, the project should embrace:
-
-- Unit Testing
-- Continuous Integration/Deployment
-- Metrics
-- Refactoring
 
 In this Go project there are two possible paths, which will be tried both, in phases:
 

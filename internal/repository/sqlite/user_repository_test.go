@@ -1,11 +1,13 @@
 package sqlite_test
 
 import (
+	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
 	u "github.com/rwngallego/perfecty-push/internal/domain/user"
 	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 func TestGetUsers(t *testing.T) {
@@ -37,9 +39,12 @@ func TestGetUsers(t *testing.T) {
 
 func TestGetUserById(t *testing.T) {
 	var (
-		db       = setupDB()
-		userRepo = sqlite.NewSqlLiteUserRepository(db)
-		user, _  = u.NewUser("endpoint_test", "127.0.0.1", "my_key_auth", "my_p256_dh_key")
+		db             = setupDB()
+		id, _          = uuid.NewRandom()
+		timeCreated    = time.Now()
+		timeDisabledAt = time.Now()
+		userRepo       = sqlite.NewSqlLiteUserRepository(db)
+		user, _        = u.NewUserRaw(id, "endpoint_test", "127.0.0.1", "my_key_auth", "my_p256_dh_key", false, false, timeCreated, &timeDisabledAt)
 	)
 	defer db.Close()
 	userRepo.Create(user)
@@ -51,10 +56,10 @@ func TestGetUserById(t *testing.T) {
 	assert.Equal(t, "127.0.0.1", created.RemoteIP)
 	assert.Equal(t, "my_key_auth", created.KeyAuth)
 	assert.Equal(t, "my_p256_dh_key", created.KeyP256DH)
+	assert.Equal(t, false, created.IsOptedIn())
+	assert.Equal(t, false, created.IsEnabled())
 	assert.Equal(t, false, created.CreatedAt().IsZero())
-	assert.Equal(t, true, created.IsOptedIn())
-	assert.Equal(t, true, created.IsEnabled())
-	assert.Nil(t, created.DisabledAt())
+	assert.Equal(t, false, created.DisabledAt().IsZero())
 }
 
 func TestGetUserByEndpoint(t *testing.T) {
@@ -124,8 +129,8 @@ func TestUpdateUser(t *testing.T) {
 	updated, errGetById := userRepo.GetById(user.Uuid)
 
 	assert.NoError(t, errCreated)
-	assert.NoError(t, errGetById)
 	assert.NoError(t, err)
+	assert.NoError(t, errGetById)
 	assert.NotNil(t, updated)
 	assert.Equal(t, "endpoint_test_2", updated.Endpoint)
 	assert.Equal(t, "127.0.0.2", updated.RemoteIP)

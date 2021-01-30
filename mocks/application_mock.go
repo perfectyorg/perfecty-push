@@ -108,28 +108,29 @@ func (mr *MockUserRepositoryMockRecorder) GetById(arg0 interface{}) *gomock.Call
 }
 
 // GetTotal mocks base method
-func (m *MockUserRepository) GetTotal() (int, error) {
+func (m *MockUserRepository) GetTotal(arg0 bool) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTotal")
+	ret := m.ctrl.Call(m, "GetTotal", arg0)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetTotal indicates an expected call of GetTotal
-func (mr *MockUserRepositoryMockRecorder) GetTotal() *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) GetTotal(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTotal", reflect.TypeOf((*MockUserRepository)(nil).GetTotal))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTotal", reflect.TypeOf((*MockUserRepository)(nil).GetTotal), arg0)
 }
 
 // Stats mocks base method
-func (m *MockUserRepository) Stats() (int, int, int) {
+func (m *MockUserRepository) Stats() (int, int, int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Stats")
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(int)
 	ret2, _ := ret[2].(int)
-	return ret0, ret1, ret2
+	ret3, _ := ret[3].(error)
+	return ret0, ret1, ret2, ret3
 }
 
 // Stats indicates an expected call of Stats

@@ -22,9 +22,9 @@ type (
 		// Delete Delete the user by uuid
 		Delete(id uuid.UUID) (err error)
 		// GetTotal Get the total number of users
-		GetTotal() (total int, err error)
+		GetTotal(onlyActive bool) (total int, err error)
 		// Stats Get the stats
-		Stats() (total int, active int, inactive int)
+		Stats() (total int, active int, inactive int, err error)
 	}
 
 	RegistrationService struct {

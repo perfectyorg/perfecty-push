@@ -69,18 +69,26 @@ func (r *SqlLiteUserRepository) GetById(id uuid.UUID) (user *u.User, err error) 
 }
 
 func (r *SqlLiteUserRepository) GetByEndpoint(endpoint string) (user *u.User, err error) {
-	return
-}
-
-func (r *SqlLiteUserRepository) Create(user *u.User) (err error) {
-	stmt, err := r.db.Prepare("INSERT INTO users(uuid, endpoint, remote_ip, key_auth, key_p256dh) VALUES (?, ?, ?, ?, ?)")
+	stmt, err := r.db.Prepare("SELECT " + fields + " FROM users WHERE endpoint = ?")
 	if err != nil {
 		log.Error().Err(err).Msg("Could not prepare the query")
 		return
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(user.Uuid, user.Endpoint, user.RemoteIP, user.KeyAuth, user.KeyP256DH)
+	row := stmt.QueryRow(endpoint)
+	return getUserFromRow(row)
+}
+
+func (r *SqlLiteUserRepository) Create(user *u.User) (err error) {
+	stmt, err := r.db.Prepare("INSERT INTO users(uuid, endpoint, remote_ip, key_auth, key_p256dh, enabled, opted_in, created_at, disabled_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		log.Error().Err(err).Msg("Could not prepare the query")
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(user.Uuid, user.Endpoint, user.RemoteIP, user.KeyAuth, user.KeyP256DH, user.IsEnabled(), user.IsOptedIn(), user.CreatedAt(), user.DisabledAt())
 	if err != nil {
 		log.Error().Err(err).Msg("Could not create the user")
 		return
@@ -89,20 +97,67 @@ func (r *SqlLiteUserRepository) Create(user *u.User) (err error) {
 }
 
 func (r *SqlLiteUserRepository) Update(user *u.User) (err error) {
+	stmt, err := r.db.Prepare("UPDATE users SET endpoint=?, remote_ip=?, key_auth=?, key_p256dh=?, opted_in=?, enabled=?, created_at=?, disabled_at=?")
+	if err != nil {
+		log.Error().Err(err).Msg("Could not prepare the query")
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(user.Endpoint, user.RemoteIP, user.KeyAuth, user.KeyP256DH, user.IsOptedIn(), user.IsEnabled(), user.CreatedAt(), user.DisabledAt())
+	if err != nil {
+		log.Error().Err(err).Msg("Could not update the user")
+		return
+	}
 	return
 }
 
 func (r *SqlLiteUserRepository) Delete(id uuid.UUID) (err error) {
+	stmt, err := r.db.Prepare("DELETE FROM users WHERE uuid = ?")
+	if err != nil {
+		log.Error().Err(err).Msg("Could not prepare the query")
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(id.String())
+	if err != nil {
+		log.Error().Err(err).Msg("Could not delete the user")
+		return
+	}
 	return
 }
 
-func (r *SqlLiteUserRepository) GetTotal() (total int, err error) {
+func (r *SqlLiteUserRepository) GetTotal(onlyActive bool) (total int, err error) {
+	var where string
+
+	if onlyActive {
+		where = " WHERE enabled=1 and opted_in=1"
+	}
+
+	if err = r.db.QueryRow("SELECT count(*) FROM users " + where).Scan(&total); err != nil {
+		log.Error().Err(err).Msg("Could not get the total users")
+		return
+	}
+
 	return
 }
 
-func (r *SqlLiteUserRepository) Stats() (total int, active int, inactive int) {
+func (r *SqlLiteUserRepository) Stats() (total int, active int, inactive int, err error) {
+	if err = r.db.QueryRow("SELECT count(*) FROM users ").Scan(&total); err != nil {
+		log.Error().Err(err).Msg("Could not get the total users")
+		return
+	}
+
+	if err = r.db.QueryRow("SELECT count(*) FROM users WHERE enabled=1 AND opted_in=1").Scan(&active); err != nil {
+		log.Error().Err(err).Msg("Could not get the total active users")
+		return
+	}
+	inactive = total - active
 	return
 }
+
+// Private
 
 func getUserFromRow(row rowInterface) (user *u.User, err error) {
 	var (

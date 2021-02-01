@@ -1,4 +1,4 @@
-# Design
+# V1 Design
 
 ## Introduction
 
@@ -9,7 +9,7 @@ libraries and a rough idea about the API.
 
 Internal quality in Software Development is cheaper in the long run [[1]](https://martinfowler.com/articles/is-quality-worth-cost.html).
 This means that a high effort will be put in having a good foundation for the project, so that
-it's possible to iterate faster, cheaper and safer. Apart from the CISQ quality model, the project should embrace:
+it's possible to iterate faster, cheaper and safer. The project embraces:
 
 - Unit Testing
 - Continuous Integration/Deployment
@@ -17,6 +17,8 @@ it's possible to iterate faster, cheaper and safer. Apart from the CISQ quality 
 - Refactoring
 
 ## Outcome
+
+![Architecture](img/architecture.jpg)
 
 The final version of Perfecty Push will extend the current capabilities
 offered by the [plugin version](https://github.com/rwngallego/perfecty-push-wp/).
@@ -30,11 +32,13 @@ and in general, it should:
 - Single binary and multiplatform: Windows/Linux.
 - Exponential Backoff for third-party integrations.
 - Unified JS SDK.
+- Administration UI.
+- Extendable using the [Go plugin system](https://pkg.go.dev/plugin)
 
 ### MVP
 
 A potential MVP is the version that supports the same features as the
-plugin version, with basic user segmentation support, completely distributable in the plugin marketplace, and stable. This means:
+plugin version, with basic user segmentation support, completely distributable in the WordPress plugin marketplace, and stable. This means:
 
 - Supports Push API initially
 - Single binary and multiplatform
@@ -59,9 +63,10 @@ In this Go project there are two possible paths, which will be tried both, in ph
     - https://threedots.tech/post/ddd-cqrs-clean-architecture-combined/
 
 The first approach is more common in the
-Go/Elixir communities for simple projects, while the second comes
-from the Java/.NET world. There have been some intentions to apply 
-the latter in the former, so it's a good experiment for this project,
+Go/Elixir communities, while the second comes
+from the Java/.NET world for enterprise focused applications.
+There have been some intentions to apply the latter in the former, and some
+strong opinions from the community against that, so it's a good experiment for this project,
 in case we consider it's worth it:
 
 *"The purpose of a good architecture is to defer decisions"*,
@@ -72,17 +77,16 @@ in case we consider it's worth it:
 ### Components
 
 According to Clean Architecture, to guarantee a loosely coupled
-system we need to correctly apply the Dependency Inversion Principle.
+system we need to correctly apply the Dependency Inversion Principle and separation of concerns.
 A good initial architecture that could enable us to apply TDD
 and DDD in a future refactoring is:
 
-- Adapters - `/internal/handlers/` and `/internal/repositories/`: HTTP handlers and DB repositories
+- Adapters - `/internal/handlers/` and `/internal/repository/`: HTTP handlers and DB repositories
 - Application - `/internal/application/`: Use cases
 - Domain - `/internal/domain/`: Called Entities but in Domain Driven Design it's simply the "domain"
 - Frameworks&Drivers - All the rest: The outer layer that glues the next inner layer (Adapters).
 
-The important part is to have in mind the separation of concerns
-and the Dependency Inversion Principle.
+![Components](img/components.jpg)
 
 ### Project layout
 
@@ -149,14 +153,25 @@ Web Sockets. Initially, Push API is tried, Web Sockets is the fallback.
 The JS SDK will be based on the current implementation from the WP version.
 A separate project should be created and the quality must be improved.
 
-### Metrics
+### Observability and distributed tracing
 
-Metrics is specially important for a good Push Notifications Server. In this case,
-we start from the baseline that the plugin version currently has a limit in this aspect.
-Furthermore, it's relevant for the project to be based on metrics, for this we can use:
+#### Metrics
+
+Metrics are specially important for a fast Push Notification Server. In this case,
+we start from the baseline that the plugin version currently has a limit in this aspect
+and we need to measure the progressions in the development once we have a stable version. Use:
 
 - Golang benchmarking
 - [Prometheus](https://prometheus.io/docs/guides/go-application/) / InfuxDB
+- OpenTelemetry
+
+#### Tracing
+
+Structured logs are preferred over traditional logs. All the HTTP requests
+will use the same trace field populated in the context. In the case of push notifications,
+they will have an associated tracker field (user.id). Integration to the 
+[Opencensus](https://opencensus.io/exporters/supported-exporters/go/) telemetry framework
+should be considered.
 
 ### Exponential Backoff with third-party integrations
 

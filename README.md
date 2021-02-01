@@ -14,7 +14,8 @@ No hidden fees, no third party dependencies and you own your data. 👏
 **NOTICE: This project is under active development and no API is stable yet.**
 
 Documentation:
-- [V1 Design document](./docs/v1_design.md)
+- [Design document](docs/v1/design.md)
+- [Use cases](docs/v1/use_cases.md)
 
 Project links:
 - Go Server: [https://github.com/rwngallego/perfecty-push](https://github.com/rwngallego/perfecty-push)
@@ -67,6 +68,13 @@ go test -v ./...
 ## License 💡
 
 This project is licensed under [MIT](LICENSE).
+
+## Contributing
+
+If you're interesting on contributing to this project, feel free to submit your 
+suggestions as a PR or an issue directly to any of the projects repos.
+Remember to read the [Code of Conduct](./CONDUCT) and the license information
+of each project, which in general use the MIT license, except the WordPress plugin.
 
 ## Collaborators 🔥
 

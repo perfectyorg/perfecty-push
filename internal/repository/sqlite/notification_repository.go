@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
-	n "github.com/rwngallego/perfecty-push/internal/domain/notification"
+	n "github.com/perfectyorg/perfecty-push/internal/domain/notification"
 	"time"
 )
 

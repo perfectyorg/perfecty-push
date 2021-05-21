@@ -2,7 +2,7 @@ package application
 
 import (
 	"github.com/google/uuid"
-	n "github.com/rwngallego/perfecty-push/internal/domain/notification"
+	n "github.com/perfectyorg/perfecty-push/internal/domain/notification"
 )
 
 type (

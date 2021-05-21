@@ -2,10 +2,10 @@ package application
 
 import (
 	"github.com/google/uuid"
-	u "github.com/rwngallego/perfecty-push/internal/domain/user"
+	u "github.com/perfectyorg/perfecty-push/internal/domain/user"
 )
 
-//go:generate mockgen -destination=../../mocks/application_mock.go -package=mocks github.com/rwngallego/perfecty-push/internal/application UserRepository
+//go:generate mockgen -destination=../../mocks/application_mock.go -package=mocks github.com/perfectyorg/perfecty-push/internal/application UserRepository
 
 type (
 	UserRepository interface {

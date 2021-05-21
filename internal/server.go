@@ -5,8 +5,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
 	"github.com/rs/zerolog/log"
-	"github.com/rwngallego/perfecty-push/internal/application"
-	"github.com/rwngallego/perfecty-push/internal/handlers"
+	"github.com/perfectyorg/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/internal/handlers"
 	"net/http"
 )
 

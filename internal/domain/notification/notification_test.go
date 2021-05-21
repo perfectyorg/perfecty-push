@@ -1,7 +1,7 @@
 package notification_test
 
 import (
-	n "github.com/rwngallego/perfecty-push/internal/domain/notification"
+	n "github.com/perfectyorg/perfecty-push/internal/domain/notification"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

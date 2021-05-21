@@ -2,7 +2,7 @@ package sqlite_test
 
 import (
 	"database/sql"
-	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
+	"github.com/perfectyorg/perfecty-push/internal/repository/sqlite"
 )
 
 const dsn = "file:test.db?mode=memory"

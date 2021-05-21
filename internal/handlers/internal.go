@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"github.com/rwngallego/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/internal/application"
 	"net/http"
 )
 

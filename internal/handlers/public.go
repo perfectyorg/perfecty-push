@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/zerolog/log"
-	"github.com/rwngallego/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/internal/application"
 	"net/http"
 )
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
-	"github.com/rwngallego/perfecty-push/internal/application"
-	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
+	"github.com/perfectyorg/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/internal/repository/sqlite"
 )
 
 var db *sql.DB

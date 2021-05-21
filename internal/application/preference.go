@@ -1,6 +1,6 @@
 package application
 
-import "github.com/rwngallego/perfecty-push/internal/domain/user"
+import "github.com/perfectyorg/perfecty-push/internal/domain/user"
 
 type (
 	PreferenceService struct {

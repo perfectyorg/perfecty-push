@@ -2,8 +2,8 @@ package application_test
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/rwngallego/perfecty-push/internal/application"
-	"github.com/rwngallego/perfecty-push/mocks"
+	"github.com/perfectyorg/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/mocks"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

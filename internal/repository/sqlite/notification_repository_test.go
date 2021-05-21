@@ -2,8 +2,8 @@ package sqlite_test
 
 import (
 	"github.com/google/uuid"
-	n "github.com/rwngallego/perfecty-push/internal/domain/notification"
-	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
+	n "github.com/perfectyorg/perfecty-push/internal/domain/notification"
+	"github.com/perfectyorg/perfecty-push/internal/repository/sqlite"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

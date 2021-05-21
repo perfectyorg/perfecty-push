@@ -3,8 +3,8 @@ package sqlite_test
 import (
 	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
-	u "github.com/rwngallego/perfecty-push/internal/domain/user"
-	"github.com/rwngallego/perfecty-push/internal/repository/sqlite"
+	u "github.com/perfectyorg/perfecty-push/internal/domain/user"
+	"github.com/perfectyorg/perfecty-push/internal/repository/sqlite"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

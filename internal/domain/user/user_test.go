@@ -1,7 +1,7 @@
 package user_test
 
 import (
-	u "github.com/rwngallego/perfecty-push/internal/domain/user"
+	u "github.com/perfectyorg/perfecty-push/internal/domain/user"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

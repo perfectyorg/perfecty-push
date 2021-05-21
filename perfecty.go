@@ -1,8 +1,8 @@
 package perfecty
 
 import (
-	"github.com/rwngallego/perfecty-push/internal"
-	"github.com/rwngallego/perfecty-push/internal/application"
+	"github.com/perfectyorg/perfecty-push/internal"
+	"github.com/perfectyorg/perfecty-push/internal/application"
 )
 
 const filePath = "configs/perfecty.yml"

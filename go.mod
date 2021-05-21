@@ -1,4 +1,4 @@
-module github.com/rwngallego/perfecty-push
+module github.com/perfectyorg/perfecty-push
 
 go 1.15
 

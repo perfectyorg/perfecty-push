@@ -21,7 +21,7 @@ it's possible to iterate faster, cheaper and safer. The project embraces:
 ![Architecture](img/architecture.jpg)
 
 The final version of Perfecty Push will extend the current capabilities
-offered by the [plugin version](https://github.com/rwngallego/perfecty-push-wp/).
+offered by the [plugin version](https://github.com/perfectyorg/perfecty-push-wp/).
 The development will be iterative
 and in general, it should:
 
